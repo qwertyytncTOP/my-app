@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 
-const fieldItems = Array(25).fill("-");
+const fieldItems = Array(9).fill("-");
 const mineItem = "💣";
 const diamondItem = "💎";
 
-export function Mine5() {
+export function Mine() {
   const [targets, setTargets] = useState<string[]>(fieldItems);
   const [bet, setBet] = useState<number>(1); // Начальная ставка
   const [balance, setBalance] = useState<number>(10000); // Начальный баланс
-  const [minePosition1, setMinePosition1] = useState<number | null>(null);
-  const [minePosition2, setMinePosition2] = useState<number | null>(null);
-  const [revealedPositions, setRevealedPositions] = useState<boolean[]>(new Array(25).fill(false));
+  const [minePosition, setMinePosition] = useState<number | null>(null);
+  const [revealedPositions, setRevealedPositions] = useState<boolean[]>(new Array(9).fill(false));
   const [totalEarnings, setTotalEarnings] = useState(bet);
 
   const revealAllNonMineFields = () => {
@@ -43,37 +42,29 @@ export function Mine5() {
   }, []);
 
   const placeMine = () => {
-    let minePosition1;
-    let minePosition2;
-    console.log("placeMine");
+    let minePosition;
     do {
-      minePosition1 = Math.floor(Math.random() * targets.length);
-      minePosition2 = Math.floor(Math.random() * targets.length);
-    } while (targets[minePosition1] !== "-" && targets[minePosition2] !== "-");
+      minePosition = Math.floor(Math.random() * targets.length);
+    } while (targets[minePosition] !== "-");
 
-    const newTargets = Array(25).fill("-");
-    newTargets[minePosition1] = mineItem;
-    newTargets[minePosition2] = mineItem;
+    const newTargets = Array(9).fill("-");
+    newTargets[minePosition] = mineItem;
     setTargets(newTargets);
-    setMinePosition1(minePosition1);
-    setMinePosition2(minePosition2);
-    console.log(newTargets);
+    setMinePosition(minePosition);
   };
 
   const startNewGame = () => {
-    console.log("startnewgame");
-    const emptyField = Array(25).fill("-");
+    const emptyField = Array(9).fill("-");
     setTargets(emptyField);
     placeMine();
-    setRevealedPositions(new Array(25).fill(false));
+    setRevealedPositions(new Array(9).fill(false));
     setTotalEarnings(bet);
   };
 
   const revealField = (index: number) => {
-    console.log("revealfield");
     if (revealedPositions[index]) return;
 
-    if (minePosition1 === index || minePosition2 === index) {
+    if (minePosition === index) {
       // Проигрыш
       const newRevealedPositions = [...revealedPositions];
       newRevealedPositions[index] = true;
@@ -100,7 +91,6 @@ export function Mine5() {
       const newTargets = [...targets];
       newTargets[index] = diamondItem;
       setTargets(newTargets);
-      console.log(newRevealedPositions)
       setTotalEarnings(totalEarnings + bet * 0.2);
 
       // Проверка на выигрыш
@@ -114,7 +104,7 @@ export function Mine5() {
 
   const revealWin = () => {
     let remainingFields = targets.filter(target => target === "-").length;
-    if (remainingFields === 23) {
+    if (remainingFields === 8) {
       Swal.fire({
         icon: 'info',
         title: 'Хм...',
@@ -123,21 +113,16 @@ export function Mine5() {
         color: '#ffffff'
       });
     } else {
-      if (minePosition1 !== null && minePosition2 !== null) {
+      if (minePosition !== null) {
           const newRevealedPositions = [...revealedPositions];
-          newRevealedPositions[minePosition1] = true;
-          newRevealedPositions[minePosition2] = true;
+          newRevealedPositions[minePosition] = true;
           setRevealedPositions(newRevealedPositions);
           const newTargets = [...targets];
-          console.log("ne null")
-          newTargets[minePosition1] = mineItem;
-          newTargets[minePosition2] = mineItem;
+          newTargets[minePosition] = mineItem;
           setTargets(newTargets);
         }
-      
 
         
-      console.log("revealwin");
       setBalance(balance + totalEarnings); // Выигрыш
 
       Swal.fire({
@@ -148,7 +133,7 @@ export function Mine5() {
         color: '#ffffff'
       }).then(() => {
         // Добавляем асинхронную задержку перед началом новой игры
-        setTimeout(() => startNewGame(),500); // Задержка в 500 миллисекунд
+        setTimeout(() => startNewGame(),0); // Задержка в 500 миллисекунд
       });
     }
   };
@@ -177,13 +162,13 @@ export function Mine5() {
         <div className="absolute top-5 left-1 bg-purple-900 p-2 rounded-lg">
           <p className="text-lg font-semibold text-white">{balance.toFixed(1)}$</p>
         </div>
-        <div className="grid grid-cols-5 gap-2 mt-10 w-full max-w-sm">
+        <div className="grid grid-cols-3 gap-2 mt-10 w-full max-w-sm">
           {targets.map((target, i) => (
             <button
               key={i}
               onClick={() => revealField(i)}
               disabled={revealedPositions[i]}
-              className={`w-14 h-14 bg-gray-800 text-white font-semibold flex items-center justify-center rounded-2xl ${
+              className={`w-24 h-24 bg-gray-800 text-white font-semibold flex items-center justify-center rounded-2xl ${
                 revealedPositions[i] && target === mineItem ? "bg-red-500" : ""
               }`}
             >

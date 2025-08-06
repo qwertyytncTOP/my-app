@@ -98,7 +98,6 @@ export function Hero() {
       }
       
       const result = await response.json();
-      console.log('Response from FastAPI:', result);
       setIsSuccess(true);
     } catch (error) {
       if (error instanceof Error) {

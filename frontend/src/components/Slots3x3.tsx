@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Slot from "./Slot.tsx";
-import CelebrationEffect from './FallingDiamonds';
+import CelebrationEffect from './FallingDiamonds.tsx';
 import Swal from 'sweetalert2';
 
 const slotItems = ["💎", "🥝", "🍋", "🍓", "🍒", "🔔", "⭐"];
