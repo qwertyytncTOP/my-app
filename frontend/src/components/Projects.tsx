@@ -19,7 +19,7 @@ export function Projects() {
   // Функция для получения данных с сервера
   const fetchData = async () => {
     try {
-      const response = await axios.post('http://192.168.0.102:8000/fetch-data');
+      const response = await axios.post('https://my-fastapi-app-jdbd.onrender.com:8000/fetch-data');
       
       if (response.data.data) {
         setDataList(response.data.data);
