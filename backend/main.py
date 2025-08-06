@@ -12,7 +12,7 @@ app = FastAPI()
 # Добавляем поддержку CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://my-landing-blush.vercel.app"],  # Замените на соответствующий порт вашего React-приложения
+    allow_origins=["https://my-landing-rirytqpv2-qwertys-projects-845d2c38.vercel.app/"],  # Замените на соответствующий порт вашего React-приложения
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
