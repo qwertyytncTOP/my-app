@@ -97,7 +97,6 @@ export function Hero() {
         throw new Error(`Error sending data to FastAPI. Status code: ${response.status}`);
       }
       
-      const result = await response.json();
       setIsSuccess(true);
     } catch (error) {
       if (error instanceof Error) {
