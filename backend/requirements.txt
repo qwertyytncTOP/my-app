@@ -5,3 +5,4 @@ aiohttp
 asyncio
 lxml
 requests
+python-multipart
