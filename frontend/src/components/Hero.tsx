@@ -88,7 +88,7 @@ export function Hero() {
     }
 
     try {
-      const response = await fetch('https://my-fastapi-app-jdbd.onrender.com:8000/submit/', {
+      const response = await fetch('https://my-fastapi-app-jdbd.onrender.com:6000/submit/', {
         method: 'POST',
         body: dataToSend,
       });
