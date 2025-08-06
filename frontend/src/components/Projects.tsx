@@ -11,7 +11,7 @@ interface DataItem {
   bet: string;
   description: string;
 }
-
+  
 export function Projects() {
   const [dataList, setDataList] = useState<DataItem[]>([]);
   const [descriptionVisibility, setDescriptionVisibility] = useState<boolean[]>([]);
